@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: banking-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: banking-pipeline
+  template:
+    metadata:
+      labels:
+        app: banking-pipeline
+    spec:
+      containers:
+      - name: spark
+        image: apache/spark:3.4.1-scala2.12-java11-python3-ubuntu
+        command: ["tail", "-f", "/dev/null"]
+        volumeMounts:
+        - name: spark-apps
+          mountPath: /opt/spark-apps
+        - name: data
+          mountPath: /opt/data
+      volumes:
+      - name: spark-apps
+        configMap:
+          name: spark-apps-config
+      - name: data
+        persistentVolumeClaim:
+          claimName: data-pvc
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-apps-config
+data:
+  silver_processing.py: |
+    # Content of silver_processing.py
+  gold_processing.py: |
+    # Content of gold_processing.py
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
