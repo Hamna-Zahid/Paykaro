@@ -49,11 +49,11 @@ npx expo start
 ## 📸 Screenshots
 
 ````carousel
-![Dashboard Mockup](C:/Users/HP/.gemini/antigravity/brain/bf5c275e-b749-4bc4-87eb-e09690aefda3/paykaro_dashboard_mockup_1766860253263.png)
+![Dashboard Mockup](./assets/paykaro_dashboard_mockup_1766860253263.png)
 <!-- slide -->
-![Login & Security](C:/Users/HP/.gemini/antigravity/brain/bf5c275e-b749-4bc4-87eb-e09690aefda3/paykaro_login_mockup_v3_1766860309745.png)
+![Login & Security](./assets/paykaro_login_mockup_v3_1766860309745.png)
 <!-- slide -->
-![Transaction Flow](C:/Users/HP/.gemini/antigravity/brain/bf5c275e-b749-4bc4-87eb-e09690aefda3/paykaro_transfer_mockup_v3_1766860334357.png)
+![Transaction Flow](./assets/paykaro_transfer_mockup_v3_1766860334357.png)
 ````
 
 ## 🛡️ Fraud Detection & Gold Layer
