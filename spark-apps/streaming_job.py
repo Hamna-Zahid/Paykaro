@@ -12,14 +12,13 @@ spark = SparkSession.builder \
 # Define schema for transactions
 transaction_schema = StructType([
     StructField("transaction_id", StringType(), True),
-    StructField("account_id", StringType(), True),
-    StructField("customer_id", StringType(), True),
+    StructField("sender", StringType(), True),
+    StructField("receiver", StringType(), True),
     StructField("amount", DoubleType(), True),
-    StructField("currency", StringType(), True),
-    StructField("transaction_type", StringType(), True),
-    StructField("merchant_id", StringType(), True),
+    StructField("type", StringType(), True),
+    StructField("category", StringType(), True),
     StructField("location", StringType(), True),
-    StructField("timestamp", TimestampType(), True)
+    StructField("timestamp", StringType(), True)
 ])
 
 # Read from Kafka
@@ -27,7 +26,7 @@ kafka_df = spark \
     .readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "kafka:9092") \
-    .option("subscribe", "bank_transactions") \
+    .option("subscribe", "banking_transactions") \
     .option("startingOffsets", "earliest") \
     .load()
 

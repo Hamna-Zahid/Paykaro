@@ -12,7 +12,7 @@ silver_df = spark.read.json("/opt/data/silver")
 
 # Aggregates: Daily transaction summaries
 daily_aggregates = silver_df \
-    .groupBy(window(col("timestamp"), "1 day"), col("account_id")) \
+    .groupBy(window(col("timestamp"), "1 day"), col("sender")) \
     .agg(
         sum("amount").alias("total_amount"),
         count("*").alias("transaction_count"),
@@ -20,15 +20,13 @@ daily_aggregates = silver_df \
     )
 
 # Fraud features: Unusual patterns
-window_spec = Window.partitionBy("account_id").orderBy("timestamp")
+window_spec = Window.partitionBy("sender").orderBy("timestamp")
 
 fraud_features = silver_df \
     .withColumn("prev_amount", lag("amount").over(window_spec)) \
     .withColumn("amount_diff", abs(col("amount") - col("prev_amount"))) \
-    .withColumn("is_large_transaction", when(col("amount") > 10000, 1).otherwise(0)) \
-    .withColumn("is_unusual_location", 
-                when(col("location") != lag("location").over(window_spec), 1).otherwise(0)) \
-    .select("transaction_id", "account_id", "amount", "amount_diff", "is_large_transaction", "is_unusual_location", "timestamp")
+    .withColumn("is_large_transaction", when(col("amount") > 50000, 1).otherwise(0)) \
+    .select("transaction_id", "sender", "amount", "amount_diff", "is_large_transaction", "timestamp")
 
 # Write to Gold as JSON
 daily_aggregates.write.mode("overwrite").json("/opt/data/gold/daily_aggregates")

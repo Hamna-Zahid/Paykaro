@@ -17,17 +17,10 @@ bronze_df = spark.read.json(json_files)
 silver_df = bronze_df \
     .withColumn("amount", col("amount").cast("double")) \
     .withColumn("timestamp", to_timestamp(col("timestamp"))) \
-    .withColumn("location", regexp_replace(col("location"), "[^a-zA-Z ]", "")) \
-    .withColumn("merchant_category", 
-                when(col("merchant_id") == "Daraz", "E-commerce")
-                .when(col("merchant_id") == "Foodpanda", "Food Delivery")
-                .when(col("merchant_id") == "Amazon", "E-commerce")
-                .when(col("merchant_id") == "LocalMart", "Retail")
-                .otherwise("Other")) \
     .filter(col("amount").isNotNull() & (col("amount") > 0)) \
     .dropDuplicates(["transaction_id"])
 
-# Write to Silver as JSON for simplicity (or Delta if fixed)
+# Write to Silver as JSON
 silver_df.write.mode("overwrite").json("/opt/data/silver")
 
 print("Silver layer processing completed")

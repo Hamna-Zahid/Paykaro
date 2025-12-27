@@ -11,8 +11,8 @@ def check_kafka_health():
     try:
         admin_client = KafkaAdminClient(bootstrap_servers='localhost:9092')
         topics = admin_client.list_topics()
-        if 'bank_transactions' in topics:
-            logger.info("Kafka health: OK - bank_transactions topic exists")
+        if 'banking_transactions' in topics:
+            logger.info("Kafka health: OK - banking_transactions topic exists")
             return True
         else:
             logger.error("Kafka health: FAIL - bank_transactions topic missing")

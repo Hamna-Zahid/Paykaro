@@ -20,12 +20,21 @@ resource "aws_vpc" "banking_vpc" {
 }
 
 # Subnets
-resource "aws_subnet" "public_subnet" {
+resource "aws_subnet" "public_subnet_1" {
   vpc_id     = aws_vpc.banking_vpc.id
   cidr_block = "10.0.1.0/24"
   availability_zone = "us-east-1a"
   tags = {
-    Name = "banking-public-subnet"
+    Name = "banking-public-subnet-1"
+  }
+}
+
+resource "aws_subnet" "public_subnet_2" {
+  vpc_id     = aws_vpc.banking_vpc.id
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "us-east-1b"
+  tags = {
+    Name = "banking-public-subnet-2"
   }
 }
 
@@ -39,6 +48,13 @@ resource "aws_security_group" "banking_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]  # Restrict in production
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # ALB access
   }
 
   ingress {
@@ -66,11 +82,11 @@ resource "aws_security_group" "banking_sg" {
 # EC2 instance for running the pipeline
 resource "aws_instance" "banking_pipeline" {
   ami           = "ami-0c7217cdde317cfec"  # Ubuntu 22.04 LTS in us-east-1
-  instance_type = "t3.medium"
+  instance_type = "t2.micro"               # Optimized for Free Tier
   key_name      = "your-key-pair"  # Replace with your key pair
 
   vpc_security_group_ids = [aws_security_group.banking_sg.id]
-  subnet_id              = aws_subnet.public_subnet.id
+  subnet_id              = aws_subnet.public_subnet_1.id
 
   tags = {
     Name = "banking-pipeline-instance"
