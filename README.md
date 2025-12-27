@@ -48,13 +48,14 @@ npx expo start
 
 ## 📸 Screenshots
 
-````carousel
+### Dashboard & Overview
 ![Dashboard Mockup](./assets/paykaro_dashboard_mockup_1766860253263.png)
-<!-- slide -->
+
+### Secure Login
 ![Login & Security](./assets/paykaro_login_mockup_v3_1766860309745.png)
-<!-- slide -->
+
+### Instant Transfers
 ![Transaction Flow](./assets/paykaro_transfer_mockup_v3_1766860334357.png)
-````
 
 ## 🛡️ Fraud Detection & Gold Layer
 The Spark Gold layer performs advanced analytics on the silver transaction data:
