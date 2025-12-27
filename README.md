@@ -1,6 +1,6 @@
 # Paykaro: Real-Time Fintech Platform
 
-![Paykaro Header](C:/Users/HP/.gemini/antigravity/brain/bf5c275e-b749-4bc4-87eb-e09690aefda3/paykaro_dashboard_mockup_1766860253263.png)
+![Paykaro Header](./assets/paykaro_dashboard_mockup_1766860253263.png)
 
 Paykaro is a comprehensive, production-grade fintech platform built for high-scale financial transactions and real-time big data analytics. It features a stunning, "White & Green" premium mobile experience integrated with an event-driven microservices backend.
 
